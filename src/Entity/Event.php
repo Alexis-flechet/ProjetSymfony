@@ -24,6 +24,10 @@ class Event
     #[ORM\JoinColumn(nullable: false)]
     private ?Artist $artist = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $creator = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +72,18 @@ class Event
     public function setArtist(?Artist $artist): static
     {
         $this->artist = $artist;
+
+        return $this;
+    }
+
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?User $creator): static
+    {
+        $this->creator = $creator;
 
         return $this;
     }
