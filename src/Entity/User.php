@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -33,6 +35,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @var Collection<int, Participe>
+     */
+    #[ORM\ManyToMany(targetEntity: Participe::class, mappedBy: 'id_user')]
+    private Collection $participes;
+
+    public function __construct()
+    {
+        $this->participes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -107,5 +120,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Participe>
+     */
+    public function getParticipes(): Collection
+    {
+        return $this->participes;
+    }
+
+    public function addParticipe(Participe $participe): static
+    {
+        if (!$this->participes->contains($participe)) {
+            $this->participes->add($participe);
+            $participe->addIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipe(Participe $participe): static
+    {
+        if ($this->participes->removeElement($participe)) {
+            $participe->removeIdUser($this);
+        }
+
+        return $this;
     }
 }
