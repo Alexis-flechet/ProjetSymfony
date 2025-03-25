@@ -1,6 +1,39 @@
+{# templates/profil_user/index.html.twig #}
+
 {% extends 'base.html.twig' %}
 
+{% block title %}Your Profile{% endblock %}
+
 {% block body %}
-    <h1>Profil User</h1>
-    <a href="{{ path('app_create_event') }}"> <button type="button">Créer un événement</button> </a>
+    <h1>Your Profile</h1>
+
+    <buttun type="button"><a href="{{ path('app_create_event') }}" class="btn btn-primary">Create New Event</a></buttun>
+
+    <h2>Events You Participate In</h2>
+    {% if events is empty %}
+        <p>You are not participating in any events yet.</p>
+    {% else %}
+        <ul>
+            {% for event in events %}
+                <li>
+                    <strong>{{ event.name }}</strong> ({{ event.date|date('Y-m-d') }}) -
+                    Artist: {{ event.artist.name }}
+
+                    <form action="{{ path('app_unsubscribe_event', {'eventId': event.id}) }}" method="POST" style="display:inline;">
+                        <button type="button" class="btn btn-danger" onclick="confirmUnsubscribe(event)">Unsubscribe</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function confirmUnsubscribe(event) {
+            if (confirm('Are you sure you want to unsubscribe from this event?')) {
+                event.target.closest('form').submit();
+            }
+        }
+    </script>
 {% endblock %}
