@@ -31,14 +31,14 @@ class Event
     private ?User $creator = null;
 
     /**
-     * @var Collection<int, Participe>
+     * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: Participe::class, mappedBy: 'id_event')]
-    private Collection $participes;
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events')]
+    private Collection $participants;
 
     public function __construct()
     {
-        $this->participes = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,7 +49,6 @@ class Event
     public function setId(int $id): static
     {
         $this->id = $id;
-
         return $this;
     }
 
@@ -61,7 +60,6 @@ class Event
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -73,7 +71,6 @@ class Event
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -85,7 +82,6 @@ class Event
     public function setArtist(?Artist $artist): static
     {
         $this->artist = $artist;
-
         return $this;
     }
 
@@ -97,32 +93,28 @@ class Event
     public function setCreator(?User $creator): static
     {
         $this->creator = $creator;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Participe>
-     */
-    public function getParticipes(): Collection
+    public function getParticipants(): Collection
     {
-        return $this->participes;
+        return $this->participants;
     }
 
-    public function addParticipe(Participe $participe): static
+    public function addParticipant(User $user): static
     {
-        if (!$this->participes->contains($participe)) {
-            $this->participes->add($participe);
-            $participe->addIdEvent($this);
+        if (!$this->participants->contains($user)) {
+            $this->participants->add($user);
+            $user->addEvent($this);
         }
 
         return $this;
     }
 
-    public function removeParticipe(Participe $participe): static
+    public function removeParticipant(User $user): static
     {
-        if ($this->participes->removeElement($participe)) {
-            $participe->removeIdEvent($this);
+        if ($this->participants->removeElement($user)) {
+            $user->removeEvent($this);
         }
 
         return $this;

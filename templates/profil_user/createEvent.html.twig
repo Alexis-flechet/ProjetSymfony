@@ -1,11 +1,34 @@
+{# templates/profil_user/createEvent.html.twig #}
+
 {% extends 'base.html.twig' %}
 
+{% block title %}Create an Event{% endblock %}
+
 {% block body %}
-    <h1>Créer un événement</h1>
+    <h1>Create a New Event</h1>
+
     {{ form_start(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.date) }}
-        {{ form_row(form.artist) }}
-        <button type="submit" class="btn btn-primary">Créer l'événement</button>
+    {{ form_row(form.name) }}
+    {{ form_row(form.date) }}
+    {{ form_row(form.artist) }}
+    <button type="submit" class="btn btn-primary">Create Event</button>
     {{ form_end(form) }}
+
+    <h2>Your Events</h2>
+    {% if events is empty %}
+        <p>You haven't created any events yet.</p>
+    {% else %}
+        <ul>
+            {% for event in events %}
+                <li>
+                    <strong>{{ event.name }}</strong> ({{ event.date|date('Y-m-d') }}) -
+                    Artist: {{ event.artist.name }}
+                    <form method="post" action="{{ path('app_delete_event', {'eventId': event.id}) }}" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                        <button type="submit" class="btn btn-danger">Delete Event</button>
+                    </form>
+                    <a href="{{ path('app_edit_event', {'eventId': event.id}) }}" class="btn btn-warning">Edit Event</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}

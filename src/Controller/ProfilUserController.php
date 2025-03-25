@@ -4,45 +4,126 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\EventFormType;
+use App\Repository\ArtistRepository;
+use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class ProfilUserController extends AbstractController
 {
     #[Route('/profilUser', name: 'app_profil_user')]
-    public function index(): Response
+    public function index(UserInterface $user, EventRepository $eventRepository): Response
     {
+        $events = $eventRepository->findEventsByUser($user->getId());
+
         return $this->render('profil_user/index.html.twig', [
-            'controller_name' => 'ProfilUserController',
+            'events' => $events,
         ]);
     }
 
     #[Route('/profilUser/createEvent', name: 'app_create_event')]
-    public function createEvent(Request $request, EntityManagerInterface $em): Response
-
+    public function createEvent(Request $request, EntityManagerInterface $entityManager, ArtistRepository $artistRepository, EventRepository $eventRepository, UserInterface $user): Response
     {
+        // Récupère les événements créés par l'utilisateur connecté
+        $events = $eventRepository->findBy(['creator' => $user]);
+
         $event = new Event();
+
         $form = $this->createForm(EventFormType::class, $event);
+
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Assignation de l'artiste (tu peux récupérer un artiste dynamique si nécessaire)
+            $artist = $artistRepository->find(1);  // Tu peux aussi modifier cela en fonction de l'artiste sélectionné
+            $event->setArtist($artist);
+            $event->setCreator($user);
+            $event->addParticipant($user);
 
-        if ($form->isSubmitted() && $form->isValid()){
-            $event->setCreator($this->getUser());
-            $event->addAttendee($this->getUser());
+            // Persister l'événement dans la base de données
+            $entityManager->persist($event);
+            $entityManager->flush();
 
-            $em->persist($event);
-            $em->flush();
-
-            $this->addFlash('success', 'Événement créé avec succès !');
-
-            return $this->redirectToRoute('app_profil_user');
+            // Après avoir créé l'événement, redirige vers la même page (pour voir les événements créés)
+            return $this->redirectToRoute('app_create_event');
         }
-
 
         return $this->render('profil_user/createEvent.html.twig', [
             'form' => $form->createView(),
+            'events' => $events,  // Passer les événements créés à la vue
         ]);
     }
+
+    #[Route('/profilUser/unsubscribe/{eventId}', name: 'app_unsubscribe_event')]
+    public function unsubscribeEvent(int $eventId, UserInterface $user, EntityManagerInterface $entityManager,EventRepository $eventRepository): Response
+    {
+        $event = $eventRepository->find($eventId);
+
+        if (!$event) {
+            $this->addFlash('error', 'Event not found.');
+            return $this->redirectToRoute('app_profil_user');
+        }
+
+        if ($event->getParticipants()->contains($user)) {
+            $event->removeParticipant($user);
+            $user->removeEvent($event);
+
+            $entityManager->flush();
+
+            $this->addFlash('success', 'You have successfully unsubscribed from the event.');
+        } else {
+            $this->addFlash('error', 'You are not participating in this event.');
+        }
+
+        return $this->redirectToRoute('app_profil_user');
+    }
+
+    #[Route('/profilUser/editEvent/{eventId}', name: 'app_edit_event')]
+    public function editEvent(int $eventId, Request $request, EntityManagerInterface $entityManager, EventRepository $eventRepository, ArtistRepository $artistRepository): Response
+    {
+        $event = $eventRepository->find($eventId);
+
+        if ($event->getCreator() !== $this->getUser()) {
+            return $this->redirectToRoute('app_profil_user');
+        }
+
+        $form = $this->createForm(EventFormType::class, $event);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $artist = $artistRepository->find(1);
+            $event->setArtist($artist);
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_create_event');
+        }
+
+        return $this->render('profil_user/editEvent.html.twig', [
+            'form' => $form->createView(),
+            'event' => $event
+        ]);
+    }
+
+    #[Route('/profilUser/deleteEvent/{eventId}', name: 'app_delete_event')]
+    public function deleteEvent(int $eventId, EntityManagerInterface $entityManager, EventRepository $eventRepository): Response
+    {
+        $event = $eventRepository->find($eventId);
+
+        if ($event->getCreator() !== $this->getUser()) {
+            return $this->redirectToRoute('app_profil_user');
+        }
+
+        $entityManager->remove($event);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Event deleted successfully.');
+
+        return $this->redirectToRoute('app_create_event');
+    }
+
 }
