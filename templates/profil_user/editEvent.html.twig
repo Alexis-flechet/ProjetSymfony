@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Event{% endblock %}
+
+{% block body %}
+    <h1>Edit Event: {{ event.name }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.date) }}
+    {{ form_row(form.artist) }}
+    <button class="btn btn-success">Save Changes</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_profil_user') }}" class="btn btn-secondary">Back to Profile</a>
+{% endblock %}

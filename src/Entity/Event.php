@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,6 +30,17 @@ class Event
     #[ORM\JoinColumn(nullable: false)]
     private ?User $creator = null;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events')]
+    private Collection $participants;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,7 +49,6 @@ class Event
     public function setId(int $id): static
     {
         $this->id = $id;
-
         return $this;
     }
 
@@ -48,7 +60,6 @@ class Event
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -60,7 +71,6 @@ class Event
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -72,7 +82,6 @@ class Event
     public function setArtist(?Artist $artist): static
     {
         $this->artist = $artist;
-
         return $this;
     }
 
@@ -84,6 +93,29 @@ class Event
     public function setCreator(?User $creator): static
     {
         $this->creator = $creator;
+        return $this;
+    }
+
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(User $user): static
+    {
+        if (!$this->participants->contains($user)) {
+            $this->participants->add($user);
+            $user->addEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(User $user): static
+    {
+        if ($this->participants->removeElement($user)) {
+            $user->removeEvent($this);
+        }
 
         return $this;
     }
