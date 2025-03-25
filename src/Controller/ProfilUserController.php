@@ -81,4 +81,49 @@ final class ProfilUserController extends AbstractController
         return $this->redirectToRoute('app_profil_user');
     }
 
+    #[Route('/profilUser/editEvent/{eventId}', name: 'app_edit_event')]
+    public function editEvent(int $eventId, Request $request, EntityManagerInterface $entityManager, EventRepository $eventRepository, ArtistRepository $artistRepository): Response
+    {
+        $event = $eventRepository->find($eventId);
+
+        if ($event->getCreator() !== $this->getUser()) {
+            return $this->redirectToRoute('app_profil_user');
+        }
+
+        $form = $this->createForm(EventFormType::class, $event);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $artist = $artistRepository->find(1);
+            $event->setArtist($artist);
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_create_event');
+        }
+
+        return $this->render('profil_user/editEvent.html.twig', [
+            'form' => $form->createView(),
+            'event' => $event
+        ]);
+    }
+
+    #[Route('/profilUser/deleteEvent/{eventId}', name: 'app_delete_event')]
+    public function deleteEvent(int $eventId, EntityManagerInterface $entityManager, EventRepository $eventRepository): Response
+    {
+        $event = $eventRepository->find($eventId);
+
+        if ($event->getCreator() !== $this->getUser()) {
+            return $this->redirectToRoute('app_profil_user');
+        }
+
+        $entityManager->remove($event);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Event deleted successfully.');
+
+        return $this->redirectToRoute('app_create_event');
+    }
+
 }
