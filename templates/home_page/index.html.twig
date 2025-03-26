@@ -1,0 +1,27 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue sur la page d'accueil</h1>
+
+    <h2>Liste des événements</h2>
+    {% if events is empty %}
+        <p>Aucun événement disponible.</p>
+    {% else %}
+        <ul>
+            {% for event in events %}
+                <li>
+                    <strong>{{ event.name }}</strong> - {{ event.date|date('d/m/Y') }} - Artist: {{ event.artist.name }}<br>
+                    Organisé par : {{ event.creator.username }}
+                    <br>
+                    <a href="{{ path('app_join_event', { eventId: event.id }) }}" class="btn btn-primary">
+                        S'inscrire
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock %}
