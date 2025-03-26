@@ -33,22 +33,31 @@ final class ProfilUserController extends AbstractController
 
         $event = new Event();
 
+        // Créer le formulaire pour l'événement
         $form = $this->createForm(EventFormType::class, $event);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Assignation de l'artiste (tu peux récupérer un artiste dynamique si nécessaire)
-            $artist = $artistRepository->find(1);  // Tu peux aussi modifier cela en fonction de l'artiste sélectionné
+            // Récupère l'artiste sélectionné dans le formulaire
+            $artist = $event->getArtist();  // On récupère l'artiste de l'événement
+
+            if (!$artist) {
+                // Si aucun artiste n'est sélectionné, afficher un message d'erreur
+                $this->addFlash('error', 'Veuillez sélectionner un artiste.');
+                return $this->redirectToRoute('app_create_event');
+            }
+
+            // Associer l'artiste et l'utilisateur à l'événement
             $event->setArtist($artist);
             $event->setCreator($user);
-            $event->addParticipant($user);
+            $event->addParticipant($user);  // Ajouter l'utilisateur comme participant par défaut
 
             // Persister l'événement dans la base de données
             $entityManager->persist($event);
             $entityManager->flush();
 
-            // Après avoir créé l'événement, redirige vers la même page (pour voir les événements créés)
-            return $this->redirectToRoute('app_create_event');
+            // Redirection après la création de l'événement
+            return $this->redirectToRoute('app_profil_user');
         }
 
         return $this->render('profil_user/createEvent.html.twig', [
@@ -58,7 +67,7 @@ final class ProfilUserController extends AbstractController
     }
 
     #[Route('/profilUser/unsubscribe/{eventId}', name: 'app_unsubscribe_event')]
-    public function unsubscribeEvent(int $eventId, UserInterface $user, EntityManagerInterface $entityManager,EventRepository $eventRepository): Response
+    public function unsubscribeEvent(int $eventId, UserInterface $user, EntityManagerInterface $entityManager, EventRepository $eventRepository): Response
     {
         $event = $eventRepository->find($eventId);
 

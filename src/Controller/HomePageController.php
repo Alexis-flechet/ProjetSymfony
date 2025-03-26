@@ -7,27 +7,30 @@ use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class HomePageController extends AbstractController
 {
     #[Route('/', name: 'app_home_page')]
-    public function index(EventRepository $eventRepository, ?UserInterface $user): Response
+    public function index(EventRepository $eventRepository, ?UserInterface $user, Request $request): Response
     {
-        $events = $eventRepository->findAll();
+        $sort = $request->query->get('sort', 'asc');
+
+        $events = $eventRepository->findBy([], ['date' => $sort]);
 
         return $this->render('home_page/index.html.twig', [
             'events' => $events,
             'user' => $user,
+            'sort' => $sort,
         ]);
     }
 
-    #[Route('/event/{id}/subscribe', name: 'app_event_subscribe')]
+    #[Route('/event/{id}/subscribe', name: 'app_subscribe_event')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function subscribe(Event $event, EntityManagerInterface $entityManager, UserInterface $user): Response
     {
-
         if (!$event->getParticipants()->contains($user)) {
             $event->addParticipant($user);
             $user->addEvent($event);
@@ -42,26 +45,26 @@ final class HomePageController extends AbstractController
         return $this->redirectToRoute('app_home_page');
     }
 
-    #[Route('/join/{eventId}', name: 'app_join_event')]
-    public function joinEvent(int $eventId, EntityManagerInterface $entityManager): Response
+    // src/Controller/EventController.php
+
+    #[Route('/event/{id}', name: 'app_event_detail')]
+    public function eventDetail(int $id, EventRepository $eventRepository, UserInterface $user): Response
     {
-        $user = $this->getUser();
-        $event = $entityManager->getRepository(Event::class)->find($eventId);
+        $event = $eventRepository->find($id);
 
         if (!$event) {
-            throw $this->createNotFoundException('Événement introuvable.');
+            $this->addFlash('error', 'Événement non trouvé.');
+            return $this->redirectToRoute('app_home_page');
         }
 
-        if (!$event->getParticipants()->contains($user)) {
-            $event->addParticipant($user);
-            $entityManager->persist($event);
-            $entityManager->flush();
+        $isParticipant = $event->getParticipants()->contains($user);
 
-            $this->addFlash('success', 'Vous êtes maintenant inscrit à cet événement.');
-        } else {
-            $this->addFlash('info', 'Vous participez déjà à cet événement.');
-        }
-
-        return $this->redirectToRoute('app_home_page');
+        return $this->render('home_page/detail.html.twig', [
+            'event' => $event,
+            'isParticipant' => $isParticipant,
+            'user' => $user,
+        ]);
     }
+
+
 }

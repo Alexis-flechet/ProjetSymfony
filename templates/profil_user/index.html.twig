@@ -7,7 +7,7 @@
 {% block body %}
     <h1>Your Profile</h1>
 
-    <buttun type="button"><a href="{{ path('app_create_event') }}" class="btn btn-primary">My Event</a></buttun>
+    <button type="button"><a href="{{ path('app_create_event') }}" class="btn btn-primary">Create Event</a></button>
 
     <h2>Events You Participate In</h2>
     {% if events is empty %}
@@ -16,12 +16,18 @@
         <ul>
             {% for event in events %}
                 <li>
+                    <a href="{{ path('app_event_detail', {'id': event.id}) }}">
                     <strong>{{ event.name }}</strong> ({{ event.date|date('Y-m-d') }}) -
                     Artist: {{ event.artist.name }}
-
+                    {% if event.artist.getPicture %}
+                        <img src="{{ asset('uploads/images/' ~ event.artist.getPicture) }}" alt="{{ event.artist.name }} Image" class="artist-image" />
+                    {% else %}
+                        <p>Aucune image disponible pour cet artiste.</p>
+                    {% endif %}
                     <form action="{{ path('app_unsubscribe_event', {'eventId': event.id}) }}" method="POST" style="display:inline;">
-                        <button type="button" class="btn btn-danger" onclick="confirmUnsubscribe(event)">Unsubscribe</button>
+                        <button type="button" class="btn btn-danger" onclick="confirmUnsubscribe(event)">Se désinscrire</button>
                     </form>
+                    </a>
                 </li>
             {% endfor %}
         </ul>

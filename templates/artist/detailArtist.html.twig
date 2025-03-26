@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'Artiste - {{ artist.name }}{% endblock %}
+
+{% block body %}
+    <h1>Détails de l'Artiste : {{ artist.name }}</h1>
+
+    {% if artist.getPicture %}
+        <img src="{{ asset('uploads/images/' ~ artist.getPicture) }}" alt="{{ artist.name }} Image" class="artist-image" />
+    {% else %}
+        <p>Aucune image disponible pour cet artiste.</p>
+    {% endif %}
+
+    <p><strong>Description :</strong> <br>{{ artist.description }}</p>
+
+    <h2>Événements associés</h2>
+    {% if events is empty %}
+        <p>Aucun événement associé à cet artiste.</p>
+    {% else %}
+        <ul>
+            {% for event in events %}
+                <li>
+                    <strong>{{ event.name }}</strong> - {{ event.date|date('d/m/Y') }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <button><a href="{{ path('app_edit_artist', {'id': artist.id}) }}" class="btn btn-primary">Modifier</a></button>
+        <form action="{{ path('app_delete_artist', {'id': artist.id}) }}" method="post" style="display: inline;">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete' ~ artist.id) }}">
+            <button type="submit" class="btn btn-danger">Supprimer</button>
+        </form>
+    {% endif %}
+
+    <button><a href="{{ path('app_artists') }}" class="btn btn-secondary">Retour à la liste des artistes</a></button>
+{% endblock %}

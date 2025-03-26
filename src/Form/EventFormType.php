@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\Artist;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,6 +22,7 @@ class EventFormType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Event Name',
+                'required' => true,
                 'constraints' => [
                     new NotBlank(),
                     new Length(['min' => 3, 'max' => 255]),
@@ -29,6 +31,7 @@ class EventFormType extends AbstractType
             ->add('date', DateType::class, [
                 'label' => 'Event Date',
                 'widget' => 'single_text',
+                'required' => true,
                 'constraints' => [
                     new NotBlank(),
                     new GreaterThan('today'),
@@ -38,10 +41,12 @@ class EventFormType extends AbstractType
                 'class' => Artist::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Choose an artist',
+                'required' => true,
                 'constraints' => [
                     new NotBlank(),
                 ],
             ])
+
         ;
     }
 

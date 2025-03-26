@@ -7,27 +7,29 @@
     <h1>Bienvenue sur la page d'accueil</h1>
 
     <h2>Liste des événements</h2>
+    <form method="get" action="{{ path('app_home_page') }}">
+        <label for="sort">Trier par date: </label>
+        <select name="sort" id="sort" onchange="this.form.submit()">
+            <option value="asc" {% if sort == 'asc' %}selected{% endif %}>Date croissante</option>
+            <option value="desc" {% if sort == 'desc' %}selected{% endif %}>Date décroissante</option>
+        </select>
+    </form>
     {% if events is empty %}
         <p>Aucun événement disponible.</p>
     {% else %}
         <ul>
             {% for event in events %}
                 <li>
-                    <strong>{{ event.name }}</strong> - {{ event.date|date('d/m/Y') }} - Artist: {{ event.artist.name }}<br>
-                    Organisé par : {{ event.creator.username }}
-                    <br>
-                    {% if user %}
-                        {% set isParticipant = event.participants.contains(user) %}
-
-                        <form action="{{ path(isParticipant ? 'app_unsubscribe_event' : 'app_subscribe_event', { 'eventId': event.id }) }}" method="post" style="display: inline;">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('event_action') }}">
-                            <button type="submit">
-                                {{ isParticipant ? 'Se désinscrire' : 'S\'inscrire' }}
-                            </button>
-                        </form>
+                    <a href="{{ path('app_event_detail', {'id': event.id}) }}">
+                    <strong>{{ event.name }}</strong> - {{ event.date|date('d/m/Y') }} - Artist: {{ event.artist.name }}
+                    <img src="{{ asset('uploads/images/' ~ event.artist.getPicture) }}" alt="{{ event.artist.name }} Image" class="artist-image" />
+                    {% set isParticipant = event.participants.contains(user) %}
+                    {% if isParticipant %}
+                        <p>Vous êtes inscrit à cet événement.</p>
                     {% else %}
-                        <p><em>Connectez-vous pour vous inscrire</em></p>
+                        <p>Vous n'êtes pas encore inscrit à cet événement.</p>
                     {% endif %}
+                    </a>
                 </li>
             {% endfor %}
         </ul>

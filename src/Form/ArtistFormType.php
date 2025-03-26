@@ -42,7 +42,7 @@ class ArtistFormType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Créer l\'artiste',
+                'label' => 'Enregister',
                 'attr' => ['class' => 'btn btn-success']
             ]);
     }

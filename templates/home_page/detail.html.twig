@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de l'événement - {{ event.name }}{% endblock %}
+
+{% block body %}
+    <h1>{{ event.name }}</h1>
+    <p>Date de l'événement : {{ event.date|date('d/m/Y') }}</p>
+    <h3>Artiste :</h3>
+
+    <p>{{ event.artist.name }}</p>
+    {% if event.artist.picture %}
+        <img src="{{ asset('uploads/images/' ~ event.artist.picture) }}" alt="{{ event.artist.name }} Image" class="artist-image">
+    {% else %}
+        <p>Aucune image disponible pour cet artiste.</p>
+    {% endif %}
+    <h4>Description :</h4>
+    <p>{{ event.artist.description }}</p>
+
+    <button><a href="{{ path('app_artist_detail', {'id': event.artist.id}) }}">Détail </a> </button>
+
+    <h3>Participants :</h3>
+    <ul>
+        {% for participant in event.participants %}
+            <li>{{ participant.username }}</li>
+        {% else %}
+            <p>Aucun participant pour cet événement.</p>
+        {% endfor %}
+    </ul>
+
+    {% set isParticipant = event.participants.contains(user) %}
+    {% if isParticipant %}
+        <form action="{{ path('app_unsubscribe_event', {'eventId': event.id}) }}" method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('event_action') }}">
+            <button type="submit">Se désinscrire</button>
+        </form>
+    {% else %}
+        <form action="{{ path('app_subscribe_event', {'id': event.id}) }}" method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('event_action') }}">
+            <button type="submit">S'inscrire</button>
+        </form>
+
+    {% endif %}
+
+{% endblock %}
