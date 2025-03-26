@@ -16,9 +16,18 @@
                     <strong>{{ event.name }}</strong> - {{ event.date|date('d/m/Y') }} - Artist: {{ event.artist.name }}<br>
                     Organisé par : {{ event.creator.username }}
                     <br>
-                    <a href="{{ path('app_join_event', { eventId: event.id }) }}" class="btn btn-primary">
-                        S'inscrire
-                    </a>
+                    {% if user %}
+                        {% set isParticipant = event.participants.contains(user) %}
+
+                        <form action="{{ path(isParticipant ? 'app_unsubscribe_event' : 'app_subscribe_event', { 'eventId': event.id }) }}" method="post" style="display: inline;">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('event_action') }}">
+                            <button type="submit">
+                                {{ isParticipant ? 'Se désinscrire' : 'S\'inscrire' }}
+                            </button>
+                        </form>
+                    {% else %}
+                        <p><em>Connectez-vous pour vous inscrire</em></p>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>

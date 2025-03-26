@@ -15,19 +15,11 @@ final class HomePageController extends AbstractController
     #[Route('/', name: 'app_home_page')]
     public function index(EventRepository $eventRepository, ?UserInterface $user): Response
     {
-        $allEvents = $eventRepository->findAll();
-
-        if ($user) {
-            $userEvents = $user->getEvents();
-            $events = array_filter($allEvents, function ($event) use ($userEvents) {
-                return !$userEvents->contains($event);
-            });
-        } else {
-            $events = $allEvents;
-        }
+        $events = $eventRepository->findAll();
 
         return $this->render('home_page/index.html.twig', [
             'events' => $events,
+            'user' => $user,
         ]);
     }
 
