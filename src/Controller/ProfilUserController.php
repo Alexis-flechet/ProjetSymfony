@@ -29,7 +29,7 @@ final class ProfilUserController extends AbstractController
 
     #[Route('/profilUser/createEvent', name: 'app_create_event')]
     #[IsGranted('ROLE_USER')]
-    public function createEvent(Request $request, EntityManagerInterface $entityManager, ArtistRepository $artistRepository, EventRepository $eventRepository, UserInterface $user): Response
+    public function createEvent(Request $request, EntityManagerInterface $entityManager, EventRepository $eventRepository, UserInterface $user): Response
     {
         // Récupère les événements créés par l'utilisateur connecté
         $events = $eventRepository->findBy(['creator' => $user]);
