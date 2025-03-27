@@ -11,12 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 final class ArtistController extends AbstractController
 {
     #[Route('/artists', name: 'app_artists')]
+    #[IsGranted('ROLE_USER')]
     public function index(ArtistRepository $artistRepository,Request $request): Response
     {
         $search = $request->get('search');
@@ -33,10 +35,9 @@ final class ArtistController extends AbstractController
     }
 
     #[Route('/artist/create', name: 'app_create_artist')]
+    #[IsGranted('ROLE_ADMIN')]
     public function createArtist(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
         $artist = new Artist();
         $form = $this->createForm(ArtistFormType::class, $artist);
 
@@ -77,6 +78,7 @@ final class ArtistController extends AbstractController
     }
 
     #[Route('/artists/edit/{id}', name: 'app_edit_artist')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(int $id, ArtistRepository $artistRepository, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $artist = $artistRepository->find($id);
@@ -84,11 +86,6 @@ final class ArtistController extends AbstractController
         if (!$artist) {
             $this->addFlash('error', 'Artiste non trouvé.');
             return $this->redirectToRoute('app_artists');
-        }
-
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Accès interdit.');
-            return $this->redirectToRoute('app_home_page');
         }
 
         $form = $this->createForm(ArtistFormType::class, $artist);
@@ -138,14 +135,9 @@ final class ArtistController extends AbstractController
         ]);
     }
     #[Route('/artists/delete/{id}', name: 'app_delete_artist', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(int $id, ArtistRepository $artistRepository, EntityManagerInterface $entityManager, EventRepository $eventRepository, ): Response
     {
-
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Accès interdit.');
-            return $this->redirectToRoute('app_artists');
-        }
-
         $artist = $artistRepository->find($id);
 
         if (!$artist) {
@@ -173,6 +165,7 @@ final class ArtistController extends AbstractController
     }
 
     #[Route('/artists/{id}', name: 'app_artist_detail')]
+    #[IsGranted('ROLE_USER')]
     public function show(int $id, ArtistRepository $artistRepository, EventRepository $eventRepository): Response
     {
         $artist = $artistRepository->find($id);

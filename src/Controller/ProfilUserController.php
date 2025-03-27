@@ -12,10 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class ProfilUserController extends AbstractController
 {
     #[Route('/profilUser', name: 'app_profil_user')]
+    #[IsGranted('ROLE_USER')]
     public function index(UserInterface $user, EventRepository $eventRepository): Response
     {
         $events = $eventRepository->findEventsByUser($user->getId());
@@ -26,6 +28,7 @@ final class ProfilUserController extends AbstractController
     }
 
     #[Route('/profilUser/createEvent', name: 'app_create_event')]
+    #[IsGranted('ROLE_USER')]
     public function createEvent(Request $request, EntityManagerInterface $entityManager, ArtistRepository $artistRepository, EventRepository $eventRepository, UserInterface $user): Response
     {
         // Récupère les événements créés par l'utilisateur connecté
@@ -67,6 +70,7 @@ final class ProfilUserController extends AbstractController
     }
 
     #[Route('/profilUser/unsubscribe/{eventId}', name: 'app_unsubscribe_event')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function unsubscribeEvent(int $eventId, UserInterface $user, EntityManagerInterface $entityManager, EventRepository $eventRepository): Response
     {
         $event = $eventRepository->find($eventId);
@@ -91,6 +95,7 @@ final class ProfilUserController extends AbstractController
     }
 
     #[Route('/profilUser/editEvent/{eventId}', name: 'app_edit_event')]
+    #[IsGranted('ROLE_USER')]
     public function editEvent(int $eventId, Request $request, EntityManagerInterface $entityManager, EventRepository $eventRepository, ArtistRepository $artistRepository): Response
     {
         $event = $eventRepository->find($eventId);
@@ -119,6 +124,7 @@ final class ProfilUserController extends AbstractController
     }
 
     #[Route('/profilUser/deleteEvent/{eventId}', name: 'app_delete_event')]
+    #[IsGranted('ROLE_USER')]
     public function deleteEvent(int $eventId, EntityManagerInterface $entityManager, EventRepository $eventRepository): Response
     {
         $event = $eventRepository->find($eventId);

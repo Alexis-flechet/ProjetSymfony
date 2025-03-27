@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class HomePageController extends AbstractController
 {
@@ -45,9 +46,9 @@ final class HomePageController extends AbstractController
         return $this->redirectToRoute('app_home_page');
     }
 
-    // src/Controller/EventController.php
 
     #[Route('/event/{id}', name: 'app_event_detail')]
+    #[IsGranted('ROLE_USER')]
     public function eventDetail(int $id, EventRepository $eventRepository, UserInterface $user): Response
     {
         $event = $eventRepository->find($id);
