@@ -4,7 +4,12 @@
 
 {% block title %}Create an Event{% endblock %}
 
+{% block extra_stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/createEvent.css') }}">
+{% endblock %}
+
 {% block body %}
+<div id="create-event-page">
     <h1>Create a New Event</h1>
 
     {{ form_start(form) }}
@@ -31,4 +36,5 @@
             {% endfor %}
         </ul>
     {% endif %}
+</div>
 {% endblock %}

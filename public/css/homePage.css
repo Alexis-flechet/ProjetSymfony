@@ -1,0 +1,152 @@
+/* homePage.css */
+
+/* Style global de la page d'accueil */
+.homepage {
+    background-color: var(--background-light); /* Fond clair */
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 60%;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 40px; /* Espace avec le header */
+}
+
+/* Titre principal (pour la page d'accueil uniquement) */
+.homepage h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Sous-titre (pour la page d'accueil uniquement) */
+.homepage h2 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Formulaire de tri (pour la page d'accueil uniquement) */
+.homepage form {
+    display: flex;
+    justify-content: flex-start;  /* Aligner à gauche */
+    margin-bottom: 30px;
+    gap: 20px; /* Ajout d'un écart entre les éléments */
+}
+
+.homepage form label {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-right: 10px;
+}
+
+.homepage form select {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--border-light);
+    outline: none;
+    cursor: pointer;
+}
+
+.homepage form select:focus {
+    border-color: var(--primary-color);
+}
+
+/* Liste des événements */
+.homepage ul {
+    list-style: none;
+    padding: 0;
+}
+
+.homepage ul li {
+    background-color: var(--background-light);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;  /* Utiliser flex pour aligner les éléments horizontalement */
+    align-items: center;  /* Aligner verticalement au centre */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.homepage ul li a {
+    text-decoration: none;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;  /* S'assurer que le lien occupe toute la largeur */
+}
+
+.homepage ul li a:hover {
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+/* Rendre toutes les images rondes et non déformées */
+.homepage ul li img.artist-image {
+    width: 80px;  /* Taille réduite de l'image */
+    height: 80px; /* Taille réduite de l'image */
+    border-radius: 50%;  /* Forme ronde */
+    object-fit: cover;  /* Évite la déformation de l'image */
+    margin-right: 15px; /* Espacement à droite de l'image */
+}
+
+/* Informations sur l'événement et inscription */
+.homepage ul li div.event-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;  /* Laisser de l'espace pour le texte */
+}
+
+.homepage ul li p {
+    margin-top: 10px;
+    color: var(--text-secondary);
+}
+
+.homepage ul li p:first-of-type {
+    font-weight: bold;
+}
+
+/* Message si aucun événement n'est disponible */
+.homepage p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+/* Responsivité */
+@media (max-width: 768px) {
+    .homepage {
+        padding: 20px;
+    }
+
+    .homepage h1 {
+        font-size: 2rem;
+    }
+
+    .homepage h2 {
+        font-size: 1.5rem;
+    }
+
+    .homepage form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .homepage form label {
+        margin-bottom: 10px;
+    }
+
+    .homepage ul li {
+        padding: 10px;
+        flex-direction: column;  /* Pour les petits écrans, empiler les éléments */
+    }
+
+    .homepage ul li img.artist-image {
+        margin-right: 0;
+        margin-bottom: 10px;  /* Espacement sous l'image pour les petits écrans */
+    }
+}

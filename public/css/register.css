@@ -1,0 +1,83 @@
+/* Formulaire d'inscription */
+form {
+    background-color: var(--background-light); /* Fond clair */
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 400px; /* Réduire la largeur pour la cohérence */
+    margin: 50px auto; /* Centrer le formulaire */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre du formulaire */
+form h1 {
+    text-align: center;
+    color: var(--primary-color); /* Couleur primaire */
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+/* Styles des champs de saisie (nom, mot de passe, etc.) */
+form input {
+    width: calc(100% - 21px);
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-light);
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Style du bouton de soumission */
+form button[type="submit"] {
+    background-color: var(--primary-color); /* Couleur primaire */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+    background-color: var(--secondary-color); /* Couleur secondaire au survol */
+}
+
+/* Affichage des erreurs du formulaire */
+form .form-error {
+    color: var(--accent-1); /* Rouge vif pour les erreurs */
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+/* Message d'erreur global (alert) */
+.alert-danger {
+    color: var(--accent-1); /* Rouge vif pour les erreurs */
+    background-color: var(--background-light); /* Fond clair pour l'alerte */
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid var(--accent-1);
+}
+
+/* Message utilisateur déjà connecté */
+.mb-3 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.mb-3 a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.mb-3 a:hover {
+    text-decoration: underline;
+}
+

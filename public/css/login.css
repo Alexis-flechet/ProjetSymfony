@@ -1,0 +1,79 @@
+/* public/css/styles.css */
+
+/* Style du formulaire */
+form {
+    background-color: var(--background-light); /* Fond clair */
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 400px;
+    margin: 50px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre du formulaire */
+form h1 {
+    text-align: center;
+    color: var(--primary-color); /* Couleur primaire */
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+/* Styles des champs de saisie (username et password) */
+form input[type="text"],
+form input[type="password"] {
+    width: calc(100% - 21px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-light);
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Style du bouton de soumission */
+form button {
+    background-color: var(--primary-color); /* Couleur primaire */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: var(--secondary-color); /* Couleur secondaire au survol */
+}
+
+/* Message d'erreur */
+.alert-danger {
+    color: var(--accent-1); /* Rouge vif pour les erreurs */
+    background-color: var(--background-light); /* Fond clair pour l'alerte */
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid var(--accent-1);
+}
+
+/* Message utilisateur déjà connecté */
+.mb-3 {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.mb-3 a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.mb-3 a:hover {
+    text-decoration: underline;
+}

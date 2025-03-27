@@ -1,0 +1,84 @@
+/* Style spécifique à la page de création d'artiste */
+#artiste-creation-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: var(--background-light);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre de la page */
+#artiste-creation-page h1 {
+    font-size: 2rem;
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Formulaire de création d'artiste */
+#artiste-creation-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#artiste-creation-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#artiste-creation-page input,
+#artiste-creation-page textarea {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 5px;
+    width: 100%;
+}
+
+#artiste-creation-page input:focus,
+#artiste-creation-page textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+#artiste-creation-page button[type="submit"] {
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#artiste-creation-page button[type="submit"]:hover {
+    background-color: var(--secondary-color);
+}
+
+#artiste-creation-page button a {
+    text-decoration: none;
+    color: white;
+}
+
+#artiste-creation-page button a:hover {
+    text-decoration: underline;
+}
+
+/* Bouton "Retour" */
+#artiste-creation-page button.btn-secondary {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-1);
+    border-radius: 5px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#artiste-creation-page button.btn-secondary:hover {
+    background-color: var(--accent-2);
+}

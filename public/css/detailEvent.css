@@ -1,0 +1,92 @@
+/* Détails de l'événement */
+.event-details {
+    background-color: var(--background-light); /* Fond clair */
+    padding: 30px;
+    margin: 50px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+}
+
+.event-details h1 {
+    text-align: center;
+    color: var(--primary-color); /* Couleur primaire */
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.event-details p {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+}
+
+.event-details h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin-top: 30px;
+}
+
+.event-details h4 {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+/* Style pour l'image de l'artiste */
+.artist-image {
+    display: block;
+    margin: 20px auto;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Boutons d'action */
+.event-details button {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 0.3s ease;
+}
+
+.event-details button a {
+    color: white; /* Couleur du texte du lien (blanc) */
+    text-decoration: none; /* Enlever le soulignement par défaut */
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+
+.event-details button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Liste des participants */
+.event-details ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.event-details ul li {
+    background-color: var(--background-light);
+    padding: 10px;
+    border: 1px solid var(--border-light);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+

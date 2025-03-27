@@ -2,38 +2,47 @@
 
 {% block title %}Liste des Artistes{% endblock %}
 
-{% block body %}
-    <h1>Liste des Artistes</h1>
-    <form method="get" action="{{ path('app_artists') }}">
-        <input type="text" name="search" placeholder="Rechercher un artiste" value="{{ app.request.get('search') }}">
-        <button type="submit" class="btn btn-primary">Rechercher</button>
-    </form>
-    {% if is_granted('ROLE_ADMIN') %}
-        <button><a href="{{ path('app_create_artist') }}" class="btn btn-primary">Créer un artiste</a></button>
-    {% endif %}
-    <ul>
-        {% for artist in artists %}
-            <li>
-                <a href="{{ path('app_artist_detail', {'id': artist.id}) }}">
-                {% if artist.getPicture %}
-                    <img src="{{ asset('uploads/images/' ~ artist.getPicture) }}" alt="{{ artist.name }} Image" class="artist-image" />
-                {% else %}
-                    <p>Aucune image disponible</p>
-                {% endif %}
-                {{ artist.name }}
-                {{ artist.description }}
-                {% if is_granted('ROLE_ADMIN') %}
-                    <button><a href="{{ path('app_edit_artist', {'id': artist.id}) }}" class="btn btn-primary">Modifier</a></button>
-                    <form action="{{ path('app_delete_artist', {'id': artist.id}) }}" method="post" style="display: inline;">
-                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete' ~ artist.id) }}">
-                        <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet artiste ?');" class="btn btn-danger">Supprimer</button>
-                    </form>
-                {% endif %}
-                </a>
-            </li>
-        {% else %}
-            <p>Aucun artiste trouvé.</p>
-        {% endfor %}
-    </ul>
+{% block extra_stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/artiste.css') }}">
 {% endblock %}
 
+{% block body %}
+    <div id="artists-page">
+        <h1>Liste des Artistes</h1>
+        <form method="get" action="{{ path('app_artists') }}">
+            <input type="text" name="search" placeholder="Rechercher un artiste" value="{{ app.request.get('search') }}">
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+        {% if is_granted('ROLE_ADMIN') %}
+            <button><a href="{{ path('app_create_artist') }}" class="btn btn-primary">Créer un artiste</a></button>
+        {% endif %}
+        <ul>
+            {% for artist in artists %}
+                <li>
+                    <a href="{{ path('app_artist_detail', {'id': artist.id}) }}">
+                        {% if artist.getPicture %}
+                            <img src="{{ asset('uploads/images/' ~ artist.getPicture) }}" alt="{{ artist.name }} Image" class="artist-image" />
+                        {% else %}
+                            <p>Aucune image disponible</p>
+                        {% endif %}
+                        <div>
+                            <h3>{{ artist.name }}</h3>
+                            <p>{{ artist.description }}</p>
+                        </div>
+                    </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="action-buttons">
+                            <button><a href="{{ path('app_edit_artist', {'id': artist.id}) }}" class="btn btn-primary">Modifier</a></button>
+                            <form action="{{ path('app_delete_artist', {'id': artist.id}) }}" method="post" style="display: inline;">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete' ~ artist.id) }}">
+                                <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet artiste ?');" class="btn btn-danger delete-button">Supprimer</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </li>
+            {% else %}
+                <p>Aucun artiste trouvé.</p>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

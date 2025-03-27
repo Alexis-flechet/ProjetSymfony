@@ -1,0 +1,92 @@
+/* Style pour la page de profil utilisateur */
+#profil-user-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: var(--background-light);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre principal de la page */
+#profil-user-page h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Bouton de création d'événement */
+#profil-user-page button a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+#profil-user-page button a:hover {
+    text-decoration: underline;
+}
+
+/* Section des événements */
+#profil-user-page h2 {
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
+
+/* Liste des événements de l'utilisateur */
+#profil-user-page ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#profil-user-page li {
+    background-color: var(--background-light);
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex; /* Utiliser Flexbox pour aligner l'image et le texte */
+    align-items: center; /* Centrer verticalement les éléments */
+}
+
+/* Liens des événements */
+#profil-user-page li a {
+    text-decoration: none;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center; /* Assurer que l'image et le texte sont centrés verticalement */
+    margin-right: 10px;
+}
+
+#profil-user-page li a:hover {
+    text-decoration: underline;
+}
+
+/* Image de l'artiste */
+#profil-user-page .artist-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px; /* Espace entre l'image et le texte */
+    margin-left: 15px; /* Espace entre l'image et le texte */
+}
+
+/* Bouton de désinscription */
+#profil-user-page .btn-danger {
+    background-color: var(--accent-1);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+    margin-left: auto;
+}
+
+#profil-user-page .btn-danger:hover {
+    background-color: var(--accent-2);
+}

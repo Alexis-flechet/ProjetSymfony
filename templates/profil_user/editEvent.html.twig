@@ -2,7 +2,12 @@
 
 {% block title %}Edit Event{% endblock %}
 
+{% block extra_stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/createEvent.css') }}">
+{% endblock %}
+
 {% block body %}
+<div id="create-event-page">
     <h1>Edit Event: {{ event.name }}</h1>
 
     {{ form_start(form) }}
@@ -13,4 +18,5 @@
     {{ form_end(form) }}
 
     <button><a href="{{ path('app_profil_user') }}" class="btn btn-secondary">Back to Profile</a></button>
+</div>
 {% endblock %}

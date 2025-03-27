@@ -1,37 +1,41 @@
-{# templates/profil_user/index.html.twig #}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Your Profile{% endblock %}
+{% block title %}Votre profile{% endblock %}
+
+{% block extra_stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/profilUser.css') }}">
+{% endblock %}
 
 {% block body %}
-    <h1>Your Profile</h1>
+    <div id="profil-user-page">
+        <h1>Votre profile</h1>
 
-    <button type="button"><a href="{{ path('app_create_event') }}" class="btn btn-primary">Create Event</a></button>
+        <button type="button"><a href="{{ path('app_create_event') }}" class="btn btn-primary">Mes événements</a></button>
 
-    <h2>Events You Participate In</h2>
-    {% if events is empty %}
-        <p>You are not participating in any events yet.</p>
-    {% else %}
-        <ul>
-            {% for event in events %}
-                <li>
-                    <a href="{{ path('app_event_detail', {'id': event.id}) }}">
-                    <strong>{{ event.name }}</strong> ({{ event.date|date('Y-m-d') }}) -
-                    Artist: {{ event.artist.name }}
-                    {% if event.artist.getPicture %}
-                        <img src="{{ asset('uploads/images/' ~ event.artist.getPicture) }}" alt="{{ event.artist.name }} Image" class="artist-image" />
-                    {% else %}
-                        <p>Aucune image disponible pour cet artiste.</p>
-                    {% endif %}
-                    <form action="{{ path('app_unsubscribe_event', {'eventId': event.id}) }}" method="POST" style="display:inline;">
-                        <button type="button" class="btn btn-danger" onclick="confirmUnsubscribe(event)">Se désinscrire</button>
-                    </form>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+        <h2>Les événement que où vous êtes inscrit</h2>
+        {% if events is empty %}
+            <p>Vous ne participez à aucun événement</p>
+        {% else %}
+            <ul>
+                {% for event in events %}
+                    <li>
+                        <a href="{{ path('app_event_detail', {'id': event.id}) }}">
+                            <strong>{{ event.name }}</strong> ({{ event.date|date('Y-m-d') }}) -
+                            Artist: {{ event.artist.name }}
+                            {% if event.artist.getPicture %}
+                                <img src="{{ asset('uploads/images/' ~ event.artist.getPicture) }}" alt="{{ event.artist.name }} Image" class="artist-image" />
+                            {% else %}
+                                <p>Aucune image disponible pour cet artiste.</p>
+                            {% endif %}
+                            <form action="{{ path('app_unsubscribe_event', {'eventId': event.id}) }}" method="POST" style="display:inline;">
+                                <button type="button" class="btn btn-danger" onclick="confirmUnsubscribe(event)">Se désinscrire</button>
+                            </form>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}

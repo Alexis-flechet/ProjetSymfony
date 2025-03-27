@@ -1,0 +1,121 @@
+/* Liste des artistes - Page Artistes */
+
+#artists-page {
+    background-color: var(--background-light); /* Fond clair */
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 60%;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 40px; /* Espace avec le header */
+}
+
+#artists-page h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Formulaire de recherche - Page Artistes */
+#artists-page form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+#artists-page form input[type="text"] {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#artists-page form button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#artists-page form button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Liste des artistes - Page Artistes */
+#artists-page ul {
+    list-style: none;
+    padding: 0;
+}
+
+#artists-page ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: var(--background-light);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#artists-page ul li a {
+    text-decoration: none;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+
+
+#artists-page ul li .artist-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+#artists-page ul li p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+/* Boutons "Créer", "Modifier", "Supprimer" - Page Artistes */
+#artists-page button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 10px 10px 0;
+    transition: background-color 0.3s ease;
+}
+
+#artists-page button:hover {
+    background-color: var(--secondary-color);
+}
+
+#artists-page button a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Espacement et alignement des actions administratives - Page Artistes */
+#artists-page form[action^="app_delete_artist"] {
+    display: inline-block;
+}
+
+#artists-page form[action^="app_delete_artist"] button {
+    background-color: var(--accent-1);
+    margin-left: 10px;
+}
+
+#artists-page form[action^="app_delete_artist"] button:hover {
+    background-color: var(--accent-2);
+}

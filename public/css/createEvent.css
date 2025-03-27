@@ -1,0 +1,113 @@
+/* Style spécifique à la page de création d'événements */
+#create-event-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: var(--background-light);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre de la page */
+#create-event-page h1 {
+    font-size: 2rem;
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Formulaire de création d'événement */
+#create-event-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#create-event-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#create-event-page input,
+#create-event-page select,
+#create-event-page button {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 5px;
+    width: 100%;
+}
+
+#create-event-page input:focus,
+#create-event-page select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Style du bouton de soumission */
+#create-event-page button[type="submit"] {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#create-event-page button[type="submit"]:hover {
+    background-color: var(--secondary-color);
+}
+
+#create-event-page button a {
+    text-decoration: none;
+    color: white;
+}
+
+#create-event-page button a:hover {
+    text-decoration: underline;
+}
+
+/* Style pour la liste des événements créés */
+#create-event-page h2 {
+    font-size: 1.5rem;
+    margin-top: 30px;
+    color: var(--primary-color);
+}
+
+#create-event-page ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#create-event-page li {
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: var(--background-light);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#create-event-page li strong {
+    font-weight: bold;
+}
+
+/* Style pour les boutons modifier et supprimer */
+#create-event-page .btn {
+    margin-top: 10px;
+}
+
+#create-event-page .btn-danger {
+    background-color: var(--accent-1);
+}
+
+#create-event-page .btn-warning {
+    background-color: var(--primary-color);
+}
+
+#create-event-page .btn-danger:hover {
+    background-color: var(--accent-2);
+}
+
+#create-event-page .btn-warning:hover {
+    background-color: var(--secondary-color);
+}
