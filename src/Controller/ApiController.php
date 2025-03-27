@@ -58,7 +58,7 @@ final class ApiController extends AbstractController
     }
 
     #[Route('/api/artists/{id}', name: 'artist_detail', methods: ['GET'])]
-    public function getArtist(int $id, ArtistRepository $artistRepository): JsonResponse
+    public function getArtist(int $id, ArtistRepository $artistRepository,EventRepository $eventRepository): JsonResponse
     {
         $artist = $artistRepository->find($id);
 
@@ -66,10 +66,19 @@ final class ApiController extends AbstractController
             return new JsonResponse(['error' => 'Artist not found'], Response::HTTP_NOT_FOUND);
         }
 
+        $events = $eventRepository->findBy(['artist' => $artist]);
+
         $data = [
             'id' => $artist->getId(),
             'name' => $artist->getName(),
             'description' => $artist->getDescription(),
+            'events' => array_map(function ($event) {
+                return [
+                    'id' => $event->getId(),
+                    'name' => $event->getName(),
+                    'date' => $event->getDate()->format('d/m/Y')
+                ];
+            }, $events) // Utiliser directement $events trouvé avec findBy()
         ];
 
         return JsonResponse::fromJsonString(json_encode($data), Response::HTTP_OK);
@@ -104,6 +113,8 @@ final class ApiController extends AbstractController
             return new JsonResponse(['error' => 'Event not found'], Response::HTTP_NOT_FOUND);
         }
 
+        $participants = $event->getParticipants();
+
         $data = [
             'id' => $event->getId(),
             'name' => $event->getName(),
@@ -112,6 +123,12 @@ final class ApiController extends AbstractController
                 'id' => $event->getArtist()->getId(),
                 'name' => $event->getArtist()->getName(),
             ],
+            'participants' => array_map(function($participant) {
+                return [
+                    'id' => $participant->getId(),
+                    'username' => $participant->getUsername(),
+                ];
+            }, $participants->toArray())
         ];
 
         return JsonResponse::fromJsonString(json_encode($data), Response::HTTP_OK);
