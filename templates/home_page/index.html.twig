@@ -1,38 +1,52 @@
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Accueil{% endblock %}
 
+{% block extra_stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/homePage.css') }}">
+{% endblock %}
+
 {% block body %}
-    <h1>Bienvenue sur la page d'accueil</h1>
+    <div class='homepage'>
+        <h1>Bienvenue sur la page d'accueil</h1>
 
-    <h2>Liste des événements</h2>
-    <form method="get" action="{{ path('app_home_page') }}">
-        <label for="sort">Trier par date: </label>
-        <select name="sort" id="sort" onchange="this.form.submit()">
-            <option value="asc" {% if sort == 'asc' %}selected{% endif %}>Date croissante</option>
-            <option value="desc" {% if sort == 'desc' %}selected{% endif %}>Date décroissante</option>
-        </select>
-    </form>
-    {% if events is empty %}
-        <p>Aucun événement disponible.</p>
-    {% else %}
-        <ul>
-            {% for event in events %}
-                <li>
-                    <a href="{{ path('app_event_detail', {'id': event.id}) }}">
-                    <strong>{{ event.name }}</strong> - {{ event.date|date('d/m/Y') }} - Artist: {{ event.artist.name }}
-                    <img src="{{ asset('uploads/images/' ~ event.artist.getPicture) }}" alt="{{ event.artist.name }} Image" class="artist-image" />
-                    {% set isParticipant = event.participants.contains(user) %}
-                    {% if isParticipant %}
-                        <p>Vous êtes inscrit à cet événement.</p>
-                    {% else %}
-                        <p>Vous n'êtes pas encore inscrit à cet événement.</p>
-                    {% endif %}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+        <h2>Liste des événements</h2>
 
+        <!-- Formulaire de tri par date -->
+        <form method="get" action="{{ path('app_home_page') }}">
+            <label for="sort">Trier par date: </label>
+            <select name="sort" id="sort" onchange="this.form.submit()">
+                <option value="asc" {% if sort == 'asc' %}selected{% endif %}>Date croissante</option>
+                <option value="desc" {% if sort == 'desc' %}selected{% endif %}>Date décroissante</option>
+            </select>
+        </form>
+
+        <!-- Affichage si aucun événement n'est disponible -->
+        {% if events is empty %}
+            <p>Aucun événement disponible.</p>
+        {% else %}
+            <ul>
+                {% for event in events %}
+                    <li>
+                        <a href="{{ path('app_event_detail', {'id': event.id}) }}">
+                            <!-- Image de l'artiste -->
+                            <img src="{{ asset('uploads/images/' ~ event.artist.getPicture) }}" alt="{{ event.artist.name }} Image" class="artist-image" />
+
+                            <!-- Informations de l'événement -->
+                            <div class="event-info">
+                                <strong>{{ event.name }}</strong> {{ event.date|date('d/m/Y') }} Artist: {{ event.artist.name }}
+                                {% set isParticipant = event.participants.contains(user) %}
+                                {% if isParticipant %}
+                                    <p>Vous êtes inscrit à cet événement.</p>
+                                {% else %}
+                                    <p>Vous n'êtes pas encore inscrit à cet événement.</p>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        {% endif %}
+    </div>
 {% endblock %}

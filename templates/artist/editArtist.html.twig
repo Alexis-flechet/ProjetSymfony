@@ -2,16 +2,13 @@
 
 {% block title %}Modifier un artiste{% endblock %}
 
-{% block body %}
-    <div class="container">
-        <h1>Modifier un artiste : {{ artist.name }}</h1>
+{% block extra_stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/artisteModif.css') }}">
+{% endblock %}
 
-        {# Affichage des messages flash #}
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
+{% block body %}
+    <div id="artiste-creation-page">
+        <h1>Modifier un artiste : {{ artist.name }}</h1>
 
         <form method="post" enctype="multipart/form-data">
             {{ form_start(form) }}

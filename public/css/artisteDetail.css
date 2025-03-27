@@ -1,0 +1,101 @@
+/* Style spécifique à la page des détails de l'artiste */
+#artist-detail-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: var(--background-light);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre de la page */
+#artist-detail-page h1 {
+    font-size: 2rem;
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Image de l'artiste */
+#artist-detail-page .artist-image {
+    max-width: 150px;
+    height: auto;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Description de l'artiste */
+#artist-detail-page p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Liste des événements associés */
+#artist-detail-page h2 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-top: 20px;
+}
+
+/* Liste des événements */
+#artist-detail-page ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#artist-detail-page ul li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* Boutons */
+#artist-detail-page button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#artist-detail-page button a {
+    text-decoration: none;
+    color: white;
+}
+
+#artist-detail-page button a:hover {
+    text-decoration: underline;
+}
+
+/* Bouton retour */
+#artist-detail-page button.btn-secondary {
+    background-color: var(--accent-1);
+    border: none;
+}
+
+#artist-detail-page button.btn-secondary:hover {
+    background-color: var(--accent-2);
+}
+
+/* Bouton modifier */
+#artist-detail-page button.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+}
+
+#artist-detail-page button.btn-primary:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Bouton supprimer */
+#artist-detail-page button.btn-danger {
+    background-color: var(--accent-1);
+    border: none;
+}
+
+#artist-detail-page button.btn-danger:hover {
+    background-color: var(--accent-1);
+}
+
+

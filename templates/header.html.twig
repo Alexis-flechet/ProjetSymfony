@@ -1,11 +1,16 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+{% endblock %}
 <header>
     <nav>
         <ul>
             <li><a href="{{ path('app_home_page') }}">Accueil</a></li>
-            <li><a href="{{ path('app_artists') }}"> Artiste </a></li>
+
             {% if app.user %}
-                <li><a href="{{ path('app_profil_user') }}">Mon Profil : {{ app.user.username }}</a></li>
                 <li><a href="{{ path('app_create_event') }}">Créer un événement</a></li>
+                <li><a href="{{ path('app_artists') }}"> Artiste </a></li>
+                <li><a href="{{ path('app_profil_user') }}">Mon Profil : {{ app.user.username }}</a></li>
+
                 <li>
                     <form action="{{ path('app_logout') }}" method="post" style="display:inline;">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">

@@ -1,0 +1,65 @@
+/* Style global du header */
+header {
+    background-color: var(--background-dark); /* Fond sombre */
+    border-bottom-left-radius: 10px; /* Coins inférieurs arrondis */
+    border-bottom-right-radius: 10px;
+    padding: 20px 40px;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+/* Style du menu de navigation */
+nav ul {
+    display: flex;
+    justify-content: space-between; /* Espacement entre les éléments */
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+/* Lien "Accueil" à gauche */
+nav ul li:first-child {
+    margin-right: auto; /* Excentrer "Accueil" à gauche */
+}
+
+/* Style des liens */
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    font-size: 20px;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: var(--primary-color); /* Changer de couleur au survol */
+    border-radius: 5px;
+}
+
+/* Style des boutons dans le formulaire (comme le bouton de déconnexion) */
+form button {
+    background-color: var(--accent-1); /* Rouge vif */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+form button:hover {
+    background-color: var(--accent-2); /* Jaune doré au survol */
+}
+
+/* Réactivité pour petits écrans */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column; /* Changer en une colonne sur petits écrans */
+        align-items: flex-start;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
+}
